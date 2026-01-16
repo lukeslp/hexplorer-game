@@ -10,6 +10,7 @@ export interface CanvasInteractionHandlers {
   handleTouchStart: (e: React.TouchEvent) => void;
   handleTouchMove: (e: React.TouchEvent) => void;
   handleTouchEnd: (e: React.TouchEvent) => void;
+  handleWheel: (e: React.WheelEvent) => void;
 }
 
 export interface UseCanvasInteractionOptions {
@@ -166,6 +167,15 @@ export function useCanvasInteraction(
     return () => container.removeEventListener("wheel", handleWheel);
   }, []);
 
+  // React wheel handler (for direct use)
+  const handleWheelReact = (e: React.WheelEvent) => {
+    e.preventDefault();
+    setViewState((prev) => ({
+      ...prev,
+      zoom: Math.min(Math.max(prev.zoom * (e.deltaY > 0 ? 0.9 : 1.1), 0.25), 3),
+    }));
+  };
+
   const handlers: CanvasInteractionHandlers = {
     handleMouseDown,
     handleMouseMove,
@@ -175,6 +185,7 @@ export function useCanvasInteraction(
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
+    handleWheel: handleWheelReact,
   };
 
   return {
