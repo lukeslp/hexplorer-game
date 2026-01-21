@@ -8,7 +8,8 @@ import {
   faLandmark, 
   faCircle, 
   faHome, 
-  faQuestion 
+  faQuestion,
+  faStar
 } from '@fortawesome/free-solid-svg-icons';
 
 /**
@@ -23,6 +24,7 @@ export type TileType =
   | 'ruins'
   | 'void'
   | 'settlement'
+  | 'beacon'
   | 'fog';
 
 /**
@@ -34,6 +36,10 @@ export type BiomeType =
   | 'tropical'
   | 'volcanic'
   | 'corrupted';
+
+export type TileFeature =
+  | 'cache'
+  | 'beacon';
 
 /**
  * Core hex tile data structure
@@ -65,6 +71,12 @@ export interface HexTile {
   
   /** Can player enter this tile? */
   passable: boolean;
+
+  /** Optional special feature on the tile */
+  feature?: TileFeature;
+
+  /** Has the feature been claimed/triggered? */
+  featureDiscovered?: boolean;
 }
 
 /**
@@ -157,6 +169,15 @@ export const TILE_STYLES: Record<TileType, TileStyle> = {
     iconColor: '#fdba74',      // Light orange
     icon: faHome,
     description: 'Player-built structure'
+  },
+  beacon: {
+    id: 'beacon',
+    label: 'Beacon',
+    fillColor: '#1b1b0a',
+    strokeColor: '#facc15',
+    iconColor: '#fde047',
+    icon: faStar,
+    description: 'A signal beacon humming with power'
   },
   fog: {
     id: 'fog',

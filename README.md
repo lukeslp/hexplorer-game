@@ -2,12 +2,15 @@
 
 A procedural exploration game built on an infinite hexagonal grid. Built with React, TypeScript, and Vite.
 
-## 🎮 Features (Phase 1 Complete)
+## 🎮 Features (Phase 2 Prototype)
 
 - **Infinite Hexagonal Grid**: Explore an endless world of procedurally generated tiles
 - **Smooth Pan & Zoom**: Intuitive canvas controls for both mouse and touch
 - **Viewport Culling**: Efficient rendering of only visible tiles
 - **Tile Variety**: 9 different terrain types (plains, forest, mountain, water, desert, ruins, void, settlement, fog)
+- **Expedition Loop**: Move, scan, gather resources, and secure the signal beacon
+- **Fog of War**: Reveal tiles through exploration or pulse scans
+- **Outpost Building**: Convert explored tiles into restorative hubs
 - **Minimalist Design**: Clean, distraction-free interface inspired by Minesweeper
 
 ## 🚀 Getting Started
@@ -72,12 +75,12 @@ src/
 - [x] GamePage with procedural generation
 - [x] MainMenu and routing
 
-### 🔄 Phase 2: Game State & World Generation (Next)
+### ✅ Phase 2: Exploration Loop (In Progress)
 
-- [ ] Central game state management
-- [ ] Procedural world generation with Perlin noise
-- [ ] Biome system
-- [ ] Resource distribution
+- [x] Player movement + energy management
+- [x] Fog of war and scanning
+- [x] Resource collection + outposts
+- [ ] Expanded biome system
 
 ### 📅 Future Phases
 

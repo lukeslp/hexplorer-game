@@ -21,8 +21,9 @@ export const HexTile = memo(function HexTile({
   isSelected = false,
   onClick 
 }: HexTileProps) {
-  const { q, r, type, revealed } = tile;
-  const style = TILE_STYLES[type];
+  const { q, r, type, revealed, feature, featureDiscovered } = tile;
+  const baseStyle = TILE_STYLES[type];
+  const style = revealed ? baseStyle : TILE_STYLES.fog;
   
   // Calculate pixel position
   const { x, y } = hexToPixel(q, r);
@@ -40,7 +41,10 @@ export const HexTile = memo(function HexTile({
   return (
     <g
       transform={`translate(${screenX}, ${screenY}) scale(${viewState.zoom})`}
-      onClick={onClick}
+      onClick={(event) => {
+        event.stopPropagation();
+        onClick?.();
+      }}
       style={{ cursor: 'pointer' }}
     >
       {/* Glow filter for selection */}
@@ -78,34 +82,42 @@ export const HexTile = memo(function HexTile({
         transform="scale(0.85)"
       />
       
-      {/* Icon for revealed tiles */}
-      {revealed && (
-        <foreignObject 
-          x={-16} 
-          y={-16} 
-          width={32} 
-          height={32}
-          style={{ pointerEvents: 'none' }}
+      {/* Icon for tiles */}
+      <foreignObject 
+        x={-16} 
+        y={-16} 
+        width={32} 
+        height={32}
+        style={{ pointerEvents: 'none' }}
+      >
+        <div 
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center' 
+          }}
         >
-          <div 
+          <FontAwesomeIcon 
+            icon={style.icon} 
             style={{ 
-              width: '100%', 
-              height: '100%', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center' 
-            }}
-          >
-            <FontAwesomeIcon 
-              icon={style.icon} 
-              style={{ 
-                color: style.iconColor,
-                fontSize: '18px',
-                filter: `drop-shadow(0 0 4px ${style.iconColor}40)`
-              }} 
-            />
-          </div>
-        </foreignObject>
+              color: style.iconColor,
+              fontSize: '18px',
+              filter: `drop-shadow(0 0 4px ${style.iconColor}40)`
+            }} 
+          />
+        </div>
+      </foreignObject>
+
+      {revealed && feature === 'cache' && !featureDiscovered && (
+        <circle
+          r={6}
+          cx={22}
+          cy={-22}
+          fill="#22d3ee"
+          opacity={0.9}
+        />
       )}
     </g>
   );

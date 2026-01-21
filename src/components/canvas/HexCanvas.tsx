@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import type { HexTile as HexTileType } from '../../types/tiles';
 import type { ViewState, HexCoord } from '../../types/game';
 import { HexTile } from './HexTile';
-import { hexKey, pixelToHex, hexRound, hexesInRadius } from '../../lib/hexMath';
+import { hexKey, pixelToHex, hexRound, hexesInRadius, hexToPixel } from '../../lib/hexMath';
 
 interface HexCanvasProps {
   tiles: Map<string, HexTileType>;
@@ -11,6 +11,7 @@ interface HexCanvasProps {
   containerWidth: number;
   containerHeight: number;
   onTileClick: (coords: HexCoord) => void;
+  playerPosition: HexCoord;
 }
 
 /**
@@ -24,6 +25,7 @@ export function HexCanvas({
   containerWidth,
   containerHeight,
   onTileClick,
+  playerPosition,
 }: HexCanvasProps) {
   // Calculate visible tiles based on viewport
   const visibleTiles = useMemo(() => {
@@ -69,6 +71,19 @@ export function HexCanvas({
             onClick={() => onTileClick({ q: tile.q, r: tile.r })}
           />
         ))}
+
+        {(() => {
+          const { x, y } = hexToPixel(playerPosition.q, playerPosition.r);
+          const screenX = x * viewState.zoom + viewState.x;
+          const screenY = y * viewState.zoom + viewState.y;
+          return (
+            <g transform={`translate(${screenX}, ${screenY}) scale(${viewState.zoom})`}>
+              <circle r={18} fill="#0ea5e9" opacity={0.35} />
+              <circle r={10} fill="#38bdf8" stroke="#e0f2fe" strokeWidth={2} />
+              <circle r={4} fill="#f8fafc" />
+            </g>
+          );
+        })()}
       </g>
     </svg>
   );

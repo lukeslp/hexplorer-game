@@ -33,7 +33,7 @@ export function MainMenu() {
           </span>
         </h1>
         <p className="text-2xl text-white/50 font-light">
-          Explore the infinite hexagonal world
+          Secure the beacon and chart the unknown
         </p>
       </div>
 
@@ -50,7 +50,7 @@ export function MainMenu() {
 
       {/* Footer */}
       <div className="absolute bottom-8 text-white/30 text-base font-light">
-        Phase 1: Core Canvas & Rendering
+        Phase 2: Expedition Loop Prototype
       </div>
     </div>
   );
